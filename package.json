@@ -1,0 +1,27 @@
+{
+  "name": "miti",
+  "version": "1.0.0",
+  "description": "Date parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binokaryg/miti.git"
+  },
+  "author": "Binod Adhikary",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/binokaryg/miti/issues"
+  },
+  "homepage": "https://github.com/binokaryg/miti#readme",
+  "dependencies": {
+    "bikram-sambat": "^1.6.0",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.1"
+  }
+}
