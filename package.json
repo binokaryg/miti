@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.0.1"
+    "mocha": "^7.0.1",
+    "mockdate": "^2.0.5"
   }
 }

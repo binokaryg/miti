@@ -1,6 +1,7 @@
 var miti = require('../miti');
 var expect = require('chai').expect;
 var moment = require('moment');
+var mockDate = require('mockdate');
 
 describe("Tests", function () {
     it("test moment formats", function () {
@@ -41,7 +42,6 @@ describe("Date Parser Tests", function () {
     it("should return dates for Bikram Sambat", function () {
         expect(moment("2019-04-15").isSame(miti.parseDateFromMessage("अ 12345 2076 01 02", true))).to.be.true;
         expect(moment("2019-04-15").isSame(miti.parseDateFromMessage("अ 12345 2076 1 2", true))).to.be.true;
-        expect(moment("2019-04-15").isSame(miti.parseDateFromMessage("अ 12345 1 2", true))).to.be.true;
     });
 
     it("should return dates for Gregorian dates", function () {
@@ -49,4 +49,18 @@ describe("Date Parser Tests", function () {
         expect(moment("2019-01-02").isSame(miti.parseDateFromMessage("अ 12345 2019 1 2", false))).to.be.true;
     });
 });
+
+describe("Date Parser tests when only Month and Date are given", function() {
+    before(function() {
+        //Need a static "current" date
+        mockDate.set(moment("2020-02-01"));//BS: 2076-10-18
+    });
+    after(function() {
+        mockDate.reset();
+    })
+    it("should return date for Bikram Sambat dates", function () {
+        expect(moment("2019-04-15").isSame(miti.parseDateFromMessage("अ 12345 1 2", true))).to.be.true;
+        expect(moment("2019-02-24").isSame(miti.parseDateFromMessage("अ 12345 11 12", true))).to.be.true;
+    });
+})
 
