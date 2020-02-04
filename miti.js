@@ -9,7 +9,7 @@ function parseDateFromMessage(message, isBikramSambat) {
             resultDate = dateFormat && moment(dateString, dateFormat).toDate();
         }
         else {
-            if(dateFormat === "MM DD") {
+            if (dateFormat === "MM DD") {
                 dateString = guessBSYearForPastDate(dateString) + " " + dateString;
             }
             const fullDateBSArray = dateString.split(" ");
@@ -49,8 +49,20 @@ function guessBSYearForPastDate(dateString) {
     const today_8601 = moment().format("YYYY-MM-DD");
     const today_BS = bs.toBik_euro(today_8601);
     const currentYear_BS = today_BS.substring(0, 4);
-    const guessedDate = bs.toGreg_text(currentYear_BS, month, day);
-    if(moment().isSameOrAfter(guessedDate)) {
+    const currentMonth_BS = today_BS.substring(5, 7);
+    const currentDay_BS = today_BS.substring(8, 10);
+    var isCurrentYear = true;
+    if (parseInt(month) > parseInt(currentMonth_BS)) {
+        isCurrentYear = false;
+    }
+    else if (parseInt(month) === parseInt(currentMonth_BS)) {
+        //Month same as current month, check the days
+        if (parseInt(day) > parseInt(currentDay_BS)) {
+            isCurrentYear = false;
+        }
+    }
+
+    if (isCurrentYear) {
         return currentYear_BS;
     }
     else {
