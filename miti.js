@@ -42,7 +42,7 @@ function guessFormat(dateString) {
     return false;
 }
 
-function guessBSYearForPastDate(dateString) {
+function guessBSYearForPastDate(dateString, dateInPastOrFuture = 'past', includeTodayAsCurrentYear = true) {
     const dateParts = dateString.split(' ');
     const month = dateParts[0];
     const day = dateParts[1];
@@ -51,22 +51,51 @@ function guessBSYearForPastDate(dateString) {
     const currentYear_BS = today_BS.substring(0, 4);
     const currentMonth_BS = today_BS.substring(5, 7);
     const currentDay_BS = today_BS.substring(8, 10);
-    var isCurrentYear = true;
-    if (parseInt(month) > parseInt(currentMonth_BS)) {
-        isCurrentYear = false;
-    }
-    else if (parseInt(month) === parseInt(currentMonth_BS)) {
-        //Month same as current month, check the days
-        if (parseInt(day) > parseInt(currentDay_BS)) {
-            isCurrentYear = false;
+    var yearOffset = 0;
+    if (dateInPastOrFuture === 'past') {
+        if (parseInt(month) > parseInt(currentMonth_BS)) {
+            yearOffset = -1;
+        }
+        else if (parseInt(month) === parseInt(currentMonth_BS)) {
+            //Month same as current month, check the days
+            if (parseInt(day) > parseInt(currentDay_BS)) {
+                yearOffset = -1;
+            }
+
+            else if (parseInt(day) === parseInt(currentDay_BS)) {
+                //Day is also same, check for parameter
+                if (!includeTodayAsCurrentYear) {
+                    yearOffset = -1;
+                }
+            }
+
         }
     }
 
-    if (isCurrentYear) {
+    else if (dateInPastOrFuture === 'future') {
+        if (parseInt(month) < parseInt(currentMonth_BS)) {
+            yearOffset = 1;
+        }
+        else if (parseInt(month) === parseInt(currentMonth_BS)) {
+            //Month same as current month, check the days
+            if (parseInt(day) < parseInt(currentDay_BS)) {
+                yearOffset = 1;
+            }
+            else if (parseInt(day) === parseInt(currentDay_BS)) {
+                //Day is also same, check for parameter
+                if (!includeTodayAsCurrentYear) {
+                    yearOffset = 1;
+                }
+            }
+        }
+
+    }
+
+    if (yearOffset === 0) {
         return currentYear_BS;
     }
     else {
-        return (parseInt(currentYear_BS) - 1).toString();
+        return (parseInt(currentYear_BS) + yearOffset).toString();
     }
 }
 

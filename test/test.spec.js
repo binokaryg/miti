@@ -15,10 +15,10 @@ describe("Format Guesser Tests", function () {
         expect(miti.guessFormat("2019 01 01")).to.equal("YYYY MM DD");
         expect(miti.guessFormat("2019 2 1")).to.equal("YYYY MM DD");
     });
-    it("should guess MM DD correctly", function() {
+    it("should guess MM DD correctly", function () {
         expect(miti.guessFormat("01 01")).to.equal("MM DD");
     });
-    it("should return false if the format does not match", function() {
+    it("should return false if the format does not match", function () {
         expect(miti.guessFormat("010 01")).to.be.false;
         expect(miti.guessFormat("")).to.be.false;
         expect(miti.guessFormat("1")).to.be.false;
@@ -27,22 +27,34 @@ describe("Format Guesser Tests", function () {
 });
 
 describe("BS Year Guesser Tests", function () {
-    before(function() {
+    before(function () {
         //Need a static "current" date
         mockDate.set(moment("2020-02-02"));//BS: 2076-10-19
     });
-    after(function() {
+    after(function () {
         mockDate.reset();
     });
-    it("should guess this year correctly", function () {
+    it("should guess this year correctly when looking for past dates", function () {
         expect(miti.guessBSYearForPastDate("01 01")).to.equal("2076")
         expect(miti.guessBSYearForPastDate("10 15")).to.equal("2076");
         expect(miti.guessBSYearForPastDate("10 19")).to.equal("2076");
     });
-    it("should guess last year correctly", function() {
+    it("should guess last year correctly when looking for past dates", function () {
         expect(miti.guessBSYearForPastDate("10 20")).to.equal("2075");
         expect(miti.guessBSYearForPastDate("10 29")).to.equal("2075");
         expect(miti.guessBSYearForPastDate("12 29")).to.equal("2075");
+        expect(miti.guessBSYearForPastDate("10 19", "past", false)).to.equal("2075");
+    });
+    it("should guess this year correctly when looking for future dates", function () {
+        expect(miti.guessBSYearForPastDate("10 19", "future")).to.equal("2076");
+        expect(miti.guessBSYearForPastDate("10 20", "future")).to.equal("2076");
+        expect(miti.guessBSYearForPastDate("10 29", "future")).to.equal("2076");
+        expect(miti.guessBSYearForPastDate("12 29", "future")).to.equal("2076");
+    });
+    it("should guess next year correctly when looking for future dates", function () {
+        expect(miti.guessBSYearForPastDate("01 29", "future")).to.equal("2077");
+        expect(miti.guessBSYearForPastDate("02 29", "future")).to.equal("2077");
+        expect(miti.guessBSYearForPastDate("10 19", "future", false)).to.equal("2077");
     });
 });
 
@@ -65,12 +77,12 @@ describe("Date Parser Tests", function () {
     });
 });
 
-describe("Date Parser tests when only Month and Date are given", function() {
-    before(function() {
+describe("Date Parser tests when only Month and Date are given", function () {
+    before(function () {
         //Need a static "current" date
         mockDate.set(moment("2020-02-02"));//BS: 2076-10-19
     });
-    after(function() {
+    after(function () {
         mockDate.reset();
     });
 
