@@ -35,26 +35,26 @@ describe("BS Year Guesser Tests", function () {
         mockDate.reset();
     });
     it("should guess this year correctly when looking for past dates", function () {
-        expect(miti.guessBSYearForPastDate("01 01")).to.equal("2076")
-        expect(miti.guessBSYearForPastDate("10 15")).to.equal("2076");
-        expect(miti.guessBSYearForPastDate("10 19")).to.equal("2076");
+        expect(miti.guessBSYear("01 01")).to.equal("2076")
+        expect(miti.guessBSYear("10 15")).to.equal("2076");
+        expect(miti.guessBSYear("10 19")).to.equal("2076");
     });
     it("should guess last year correctly when looking for past dates", function () {
-        expect(miti.guessBSYearForPastDate("10 20")).to.equal("2075");
-        expect(miti.guessBSYearForPastDate("10 29")).to.equal("2075");
-        expect(miti.guessBSYearForPastDate("12 29")).to.equal("2075");
-        expect(miti.guessBSYearForPastDate("10 19", "past", false)).to.equal("2075");
+        expect(miti.guessBSYear("10 20")).to.equal("2075");
+        expect(miti.guessBSYear("10 29")).to.equal("2075");
+        expect(miti.guessBSYear("12 29")).to.equal("2075");
+        expect(miti.guessBSYear("10 19", "past", false)).to.equal("2075");
     });
     it("should guess this year correctly when looking for future dates", function () {
-        expect(miti.guessBSYearForPastDate("10 19", "future")).to.equal("2076");
-        expect(miti.guessBSYearForPastDate("10 20", "future")).to.equal("2076");
-        expect(miti.guessBSYearForPastDate("10 29", "future")).to.equal("2076");
-        expect(miti.guessBSYearForPastDate("12 29", "future")).to.equal("2076");
+        expect(miti.guessBSYear("10 19", "future")).to.equal("2076");
+        expect(miti.guessBSYear("10 20", "future")).to.equal("2076");
+        expect(miti.guessBSYear("10 29", "future")).to.equal("2076");
+        expect(miti.guessBSYear("12 29", "future")).to.equal("2076");
     });
     it("should guess next year correctly when looking for future dates", function () {
-        expect(miti.guessBSYearForPastDate("01 29", "future")).to.equal("2077");
-        expect(miti.guessBSYearForPastDate("02 29", "future")).to.equal("2077");
-        expect(miti.guessBSYearForPastDate("10 19", "future", false)).to.equal("2077");
+        expect(miti.guessBSYear("01 29", "future")).to.equal("2077");
+        expect(miti.guessBSYear("02 29", "future")).to.equal("2077");
+        expect(miti.guessBSYear("10 19", "future", false)).to.equal("2077");
     });
 });
 

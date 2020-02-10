@@ -10,7 +10,7 @@ function parseDateFromMessage(message, isBikramSambat) {
         }
         else {
             if (dateFormat === "MM DD") {
-                dateString = guessBSYearForPastDate(dateString) + " " + dateString;
+                dateString = guessBSYear(dateString) + " " + dateString;
             }
             const fullDateBSArray = dateString.split(" ");
             const gregDate = bs.toGreg(fullDateBSArray[0], fullDateBSArray[1], fullDateBSArray[2]);
@@ -42,7 +42,7 @@ function guessFormat(dateString) {
     return false;
 }
 
-function guessBSYearForPastDate(dateString, dateInPastOrFuture = 'past', includeTodayAsCurrentYear = true) {
+function guessBSYear(dateString, dateInPastOrFuture = 'past', includeTodayAsCurrentYear = true) {
     const dateParts = dateString.split(' ');
     const month = dateParts[0];
     const day = dateParts[1];
@@ -99,4 +99,4 @@ function guessBSYearForPastDate(dateString, dateInPastOrFuture = 'past', include
     }
 }
 
-module.exports = { getDateStringFromMessage, parseDateFromMessage, guessFormat, guessBSYearForPastDate };
+module.exports = { getDateStringFromMessage, parseDateFromMessage, guessFormat, guessBSYear };
