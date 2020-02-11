@@ -26,6 +26,37 @@ describe("Format Guesser Tests", function () {
     });
 });
 
+describe("AD Year Guesser Tests", function () {
+    before(function () {
+        //Need a static "current" date
+        mockDate.set(moment("2020-02-02"));
+    });
+    after(function () {
+        mockDate.reset();
+    });
+    it("should guess this year correctly when looking for past dates", function () {
+        expect(miti.guessADYear("01 01")).to.equal("2020")
+        expect(miti.guessADYear("02 01")).to.equal("2020");
+        expect(miti.guessADYear("02 02")).to.equal("2020");
+    });
+    it("should guess last year correctly when looking for past dates", function () {
+        expect(miti.guessADYear("02 03")).to.equal("2019");
+        expect(miti.guessADYear("10 29")).to.equal("2019");
+        expect(miti.guessADYear("12 29")).to.equal("2019");
+        expect(miti.guessADYear("02 02", "past", false)).to.equal("2019");
+    });
+    it("should guess this year correctly when looking for future dates", function () {
+        expect(miti.guessADYear("02 02", "future")).to.equal("2020");
+        expect(miti.guessADYear("02 03", "future")).to.equal("2020");
+        expect(miti.guessADYear("10 29", "future")).to.equal("2020");
+        expect(miti.guessADYear("12 29", "future")).to.equal("2020");
+    });
+    it("should guess next year correctly when looking for future dates", function () {
+        expect(miti.guessADYear("01 01", "future")).to.equal("2021");
+        expect(miti.guessADYear("02 01", "future", false)).to.equal("2021");
+    });
+});
+
 describe("BS Year Guesser Tests", function () {
     before(function () {
         //Need a static "current" date

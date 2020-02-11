@@ -42,6 +42,63 @@ function guessFormat(dateString) {
     return false;
 }
 
+function guessADYear(dateString, dateInPastOrFuture = 'past', includeTodayAsCurrentYear = true) {
+    const dateParts = dateString.split(' ');
+    const month = dateParts[0];
+    const day = dateParts[1];
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentDay = currentDate.getDate();
+    var yearOffset = 0;
+    if (dateInPastOrFuture === 'past') {
+        if (parseInt(month) > parseInt(currentMonth)) {
+            yearOffset = -1;
+        }
+        else if (parseInt(month) === parseInt(currentMonth)) {
+            //Month same as current month, check the days
+            if (parseInt(day) > parseInt(currentDay)) {
+                yearOffset = -1;
+            }
+
+            else if (parseInt(day) === parseInt(currentDay)) {
+                //Day is also same, check for parameter
+                if (!includeTodayAsCurrentYear) {
+                    yearOffset = -1;
+                }
+            }
+
+        }
+    }
+
+    else if (dateInPastOrFuture === 'future') {
+        if (parseInt(month) < parseInt(currentMonth)) {
+            yearOffset = 1;
+        }
+        else if (parseInt(month) === parseInt(currentMonth)) {
+            //Month same as current month, check the days
+            if (parseInt(day) < parseInt(currentDay)) {
+                yearOffset = 1;
+            }
+            else if (parseInt(day) === parseInt(currentDay)) {
+                //Day is also same, check for parameter
+                if (!includeTodayAsCurrentYear) {
+                    yearOffset = 1;
+                }
+            }
+        }
+
+    }
+
+    if (yearOffset === 0) {
+        return currentYear.toString();
+    }
+    else {
+        return (parseInt(currentYear) + yearOffset).toString();
+    }
+
+}
+
 function guessBSYear(dateString, dateInPastOrFuture = 'past', includeTodayAsCurrentYear = true) {
     const dateParts = dateString.split(' ');
     const month = dateParts[0];
@@ -99,4 +156,4 @@ function guessBSYear(dateString, dateInPastOrFuture = 'past', includeTodayAsCurr
     }
 }
 
-module.exports = { getDateStringFromMessage, parseDateFromMessage, guessFormat, guessBSYear };
+module.exports = { getDateStringFromMessage, parseDateFromMessage, guessFormat, guessADYear, guessBSYear };
